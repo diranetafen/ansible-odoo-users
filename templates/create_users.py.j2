@@ -1,0 +1,19 @@
+import xmlrpclib
+url = "{{ odoo_url }}"
+db = "{{ odoo_database }}"
+username = "{{ odoo_admin }}"
+password = "{{ odoo_admin_password }}"
+{% raw %}
+common = xmlrpclib.ServerProxy('{}/xmlrpc/2/common'.format(url))
+uid = common.authenticate(db, username, password, {})
+models = xmlrpclib.ServerProxy('{}/xmlrpc/2/object'.format(url))
+{% endraw %}
+
+{% for user in users %}
+user_ids = models.execute_kw(db, uid, password, 'res.users', 'search', [[["name", '=', "{{ user.name }}"]]])
+if not user_ids:
+  models.execute_kw(db, uid, password, 'res.users', 'create', [{{ '{' }}"name":"{{ user.name }}", "login":"{{ user.login }}", "company_ids":{{ user.company_ids }}, "new_password":"{{ user.password }}", "tz":"{{ user.tz }}" {{ '}' }} ])
+if user_ids:
+  for user_id in user_ids:
+    models.execute_kw(db, uid, password, 'res.users', 'write', [user_id, {{ '{' }}"name":"{{ user.name }}", "login":"{{ user.login }}", "company_ids":{{ user.company_ids }}, "new_password":"{{ user.password }}", "tz":"{{ user.tz }}" {{ '}' }} ])
+{% endfor %}

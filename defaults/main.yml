@@ -1,0 +1,52 @@
+---
+# defaults file for users
+
+# Set Odoo Admin Credentials
+odoo_host: "192.168.1.91"
+odoo_url: "http://192.168.1.91"
+odoo_admin: "DIRANETAFEN"
+odoo_admin_password: "PASSWORD"
+odoo_database: "POZOS"
+
+# Users to create
+users:
+  - name: "tafen1" # Only change this value if you want to create new user, this attribute is used for filter purpose when update user attributes
+    login: "tafen1"
+    password: "password"
+#    company_id: 1
+    company_ids: [1]
+    tz: "Europe/Paris"
+  - name: "tafen2"
+    login: "tafen2"
+    password: "password"
+#    company_id: 1
+    company_ids: [1]
+    tz: "Europe/Paris"
+
+# Users to configure_users. Note: All values must not has quotes
+users_to_configure:
+  tafen1:
+    sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
+    sel_groups_19_20_21: 19 # Accounting and finance (false, billing[19], accountant[20], Adviser[21])
+    sel_groups_34_35: false # Point of sale (false, user[34], manager[35])
+    in_group_36: false # Generate Barcodes (true , false)
+    sel_groups_26_27: false # Inventory (false, user[26], manager[27])
+    sel_groups_1: 1 # Employee (false, Employee[1])
+  tafen2:
+    sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
+    sel_groups_19_20_21: false # Accounting and finance (false, billing[19], accountant[20], Adviser[21])
+    sel_groups_34_35: 34 # Point of sale (false, user[34], manager[35])
+    in_group_36: false # Generate Barcodes (true , false)
+    sel_groups_26_27: false # Inventory (false, user[26], manager[27])
+    sel_groups_1: 1 # Employee (false, Employee[1])
+
+# Users to delete
+users_to_delete:
+  - "tafen2"
+  - "tafen1"
+
+
+create_users_script_dest: create_users.py
+configure_users_script_dest: configure_users.py
+delete_users_script_dest: delete_users.py
+tablet_user: pi

@@ -1,0 +1,12 @@
+---
+# tasks file for users
+- include: create_users.yml
+  tags: 
+    - create
+    - configure
+- include: configure_users.yml
+  tags: 
+    - configure 
+- include: delete_users.yml
+  tags: 
+    - delete
