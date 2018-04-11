@@ -4,7 +4,7 @@
     remote_user: root
     become: true
     roles:
-      - { ../../roles/users }
+      - { role: ../ansible-odoo-users }
     vars:
       odoo_host: "127.0.0.1"
       odoo_url: "http://127.0.0.1"
@@ -30,17 +30,9 @@
       users_to_configure:
         tafen1:
           sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
-          sel_groups_19_20_21: 19 # Accounting and finance (false, billing[19], accountant[20], Adviser[21])
-          sel_groups_34_35: false # Point of sale (false, user[34], manager[35])
-          in_group_36: false # Generate Barcodes (true , false)
-          sel_groups_26_27: false # Inventory (false, user[26], manager[27])
           sel_groups_1: 1 # Employee (false, Employee[1])
         tafen2:
           sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
-          sel_groups_19_20_21: false # Accounting and finance (false, billing[19], accountant[20], Adviser[21])
-          sel_groups_34_35: 34 # Point of sale (false, user[34], manager[35])
-          in_group_36: false # Generate Barcodes (true , false)
-          sel_groups_26_27: false # Inventory (false, user[26], manager[27])
           sel_groups_1: 1 # Employee (false, Employee[1])
 
       # Users to delete
@@ -48,7 +40,7 @@
         - "tafen2"
         - "tafen1"
 
-
+      tablet_user: root
       create_users_script_dest: create_users.py
       configure_users_script_dest: configure_users.py
       delete_users_script_dest: delete_users.py

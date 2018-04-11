@@ -7,9 +7,11 @@ services:
 
 env:
   # Odoo version for the test
-  - ODOO_VERSION: 10.0
+  - ODOO_VERSION: 10.0 
+    DOCKER_COMPOSE_VERSION: 1.17.0 
 
 before_install:
+  
   # Make sure everything's up to date.
   - sudo apt-get update -qq
 
@@ -20,45 +22,22 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
   # Deploy Odoo using docker-compose available on Docker Hub.
-  - 'sudo docker-compose up -d -f ./tests/docker-compose-$ODOO_VERSION.yml'
-
-  # Create and empty Odoo database
-  - 'sudo python ./tests/prepare_odoo_environnement_$ODOO_VERSION.py'
+  - 'sudo docker-compose -f ./tests/docker-compose-$ODOO_VERSION.yml up -d'
+  - 'sudo sleep 30'
 
 install:
 
   # Prepare the environnement
-  - pip install ansible
-  - pip install odoorpc
-
-  # Add ansible.cfg to pick up roles path.
-  - "printf '[defaults]\nroles_path = ../' > ansible.cfg"
+  - sudo pip install odoorpc
+  - sudo pip install ansible==2.4.2.0
+  - "sudo python tests/prepare_odoo_environnement_$ODOO_VERSION.py"
 
 script:
 
   # Check the role/playbook's syntax
-  - ansible-playbook ./tests/test.yml -i ./tests/inventory --syntax-check
+  - 'sudo ansible-playbook tests/test.yml --syntax-check'
 
   # Run the role/playbook with ansible-playbook
-  - result=$(mktemp)
-  - ansible-playbook ./tests/test.yml -i ./tests/inventory -vvvv --tags create | tee -a ${result}
-  - >
-    tail ${result}
-    | grep -q '*failed=0'
-    && (echo 'result user creation test: pass' && exit 0)
-    || (echo 'result user creation test: fail' && exit 1)
-  - ansible-playbook ./tests/test.yml -i ./tests/inventory -vvvv --tags configure | tee -a ${result}
-  - >
-    tail ${result}
-    | grep -q '*failed=0'
-    && (echo 'result user configuration test: pass' && exit 0)
-    || (echo 'result user configuration test: fail' && exit 1)
-  - ansible-playbook ./tests/test.yml -i ./tests/inventory -vvvv --tags delete | tee -a ${result}
-  - >
-    tail ${result}
-    | grep -q '*failed=0'
-    && (echo 'result user deletion test: pass' && exit 0)
-    || (echo 'result user deletion : fail' && exit 1)
-
-after_success:
-  - echo "test success"
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags create'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags configure'
+  - 'sudo ansible-playbook tests/test.yml -vvvv --tags delete'
