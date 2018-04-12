@@ -4,7 +4,7 @@
     remote_user: root
     become: true
     roles:
-      - { role: ../ansible-odoo-users }
+      - { role: ../ansible-odoo-users, tags: ['create', 'configure', 'delete'] }
     vars:
       odoo_host: "127.0.0.1"
       odoo_url: "http://127.0.0.1"
@@ -29,7 +29,7 @@
       # Users to configure_users. Note: All values must not has quotes
       users_to_configure:
         tafen1:
-          sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
+          sel_groups_3_4: 3 # Administration (false, Access Rights[3], Settings[4])
           sel_groups_1: 1 # Employee (false, Employee[1])
         tafen2:
           sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
