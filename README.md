@@ -59,6 +59,10 @@ License
 
 BSD
 
+Link for the video tutorial
+---------------------------
+https://youtu.be/C9XCRwjePBQ
+
 Author Information
 ------------------
 
