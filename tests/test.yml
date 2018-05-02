@@ -17,13 +17,13 @@
           login: "tafen1"
           password: "password"
       #    company_id: 1
-          company_ids: [1]
+      #    company_ids: [1]
           tz: "Europe/Paris"
         - name: "tafen2"
           login: "tafen2"
           password: "password"
       #    company_id: 1
-          company_ids: [1]
+      #    company_ids: [1]
           tz: "Europe/Paris"
 
       # Users to configure_users. Note: All values must not has quotes
