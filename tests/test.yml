@@ -30,7 +30,7 @@
       users_to_configure:
         tafen1:
           sel_groups_3_4: 3 # Administration (false, Access Rights[3], Settings[4])
-          sel_groups_1: 1 # Employee (false, Employee[1])
+          sel_groups_1: false # Employee (false, Employee[1])
         tafen2:
           sel_groups_3_4: false # Administration (false, Access Rights[3], Settings[4])
           sel_groups_1: 1 # Employee (false, Employee[1])
