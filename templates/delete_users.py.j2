@@ -16,7 +16,7 @@ if user_ids:
     models.execute_kw(db, uid, password, 'res.users', 'unlink', [[user_id]])
 
 partner_ids = models.execute_kw(db, uid, password, 'res.partner', 'search', [[["name", '=', "{{ user }}"]]])
-if user_ids:
+if partner_ids:
   for partner_id in partner_ids:
     models.execute_kw(db, uid, password, 'res.partner', 'unlink', [[partner_id]])
 {% endfor %}
